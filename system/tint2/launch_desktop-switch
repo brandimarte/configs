@@ -1,0 +1,103 @@
+#---------------------------------------------
+# TINT2 CONFIG FILE
+#---------------------------------------------
+
+# BACKGROUND DEFINITIONS
+
+# ID 1 - panel
+rounded = 0
+border_width = 0
+background_color = #000000 100
+border_color = #000000 30
+background_color_hover = #000000 60
+border_color_hover = #000000 30
+background_color_pressed = #000000 60
+border_color_pressed = #000000 30
+
+# ID 2 - task
+rounded = 0
+border_width = 2
+border_sides = TBLR
+background_color = #777777 40
+border_color = #777777 60
+background_color_hover = #aaaaaa 70
+border_color_hover = #eaeaea 80
+background_color_pressed = #555555 4
+border_color_pressed = #eaeaea 44
+
+# ID 3 - task active
+rounded = 0
+border_width = 2
+border_sides = TBLR
+background_color = #aeaeae 40
+border_color = #ffffff 90
+background_color_hover = #aaaaaa 22
+border_color_hover = #eaeaea 44
+background_color_pressed = #555555 4
+border_color_pressed = #eaeaea 44
+
+# PANEL
+panel_items = LT
+panel_size = 15% 36
+panel_margin = 0 0
+panel_padding = 2 2 0
+panel_background_id = 1
+wm_menu = 1
+panel_dock = 0
+panel_position = bottom left horizontal
+panel_layer = top
+panel_monitor = all
+primary_monitor_first = 0
+disable_transparency = 0
+
+# PANEL Autohide
+autohide = 0
+autohide_show_timeout = 0.3
+autohide_hide_timeout = 1.5
+autohide_height = 6
+strut_policy = follow_size
+
+# FONTS
+task_font = Bitstream Vera Sans Mono, 10
+task_font_color = #ffffff 80
+task_active_font_color = #ffffff 100
+task_urgent_font_color = #ffffff 100
+task_iconified_font_color = #ffffff 90
+font_shadow = 0
+
+# LAUNCHER
+launcher_padding = 6 2 2
+launcher_background_id = 0
+launcher_icon_background_id = 0
+launcher_icon_size = 28
+launcher_icon_asb = 100 0 0
+launcher_icon_theme = Adwaita
+launcher_icon_theme_override = 0
+startup_notifications = 1
+launcher_tooltip = 0
+launcher_item_app = /usr/share/applications/pcmanfm.desktop
+launcher_item_app = /usr/share/applications/spotify.desktop
+launcher_item_app = /usr/share/applications/firefox.desktop
+launcher_item_app = /usr/share/applications/visual-studio-code.desktop
+launcher_item_app = /usr/share/applications/terminator.desktop
+
+# TASKBAR
+taskbar_mode = multi_desktop
+taskbar_padding = 1 1 1
+taskbar_background_id = 2
+taskbar_active_background_id = 3
+taskbar_name = 0
+taskbar_name_background_id = 0
+taskbar_name_active_background_id = 0
+taskbar_name_font = Coda 10
+taskbar_name_font_color = #ffffff 63
+taskbar_name_active_font_color = #ffffff 100
+
+# MOUSE ACTION
+mouse_left = toggle_iconify
+mouse_middle = none
+mouse_right = close
+mouse_scroll_up = toggle
+mouse_scroll_down = iconify
+
+# End of config

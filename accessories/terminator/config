@@ -1,0 +1,26 @@
+[global_config]
+  enabled_plugins = LaunchpadCodeURLHandler, APTURLHandler, LaunchpadBugURLHandler
+  title_use_system_font = False
+  title_font = Bitstream Vera Sans 12
+[keybindings]
+[profiles]
+  [[default]]
+    background_darkness = 0.75
+    cursor_color = "#aaaaaa"
+    font = Bitstream Vera Sans Mono 12
+    scrollback_lines = 100000
+    word_chars = "-,./?%&#_~"
+    use_system_font = False
+    copy_on_selection = True
+[layouts]
+  [[default]]
+    [[[child1]]]
+      command = ""
+      parent = window0
+      profile = default
+      type = Terminal
+    [[[window0]]]
+      parent = ""
+      size = 1670, 1140
+      type = Window
+[plugins]

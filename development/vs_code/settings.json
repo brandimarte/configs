@@ -1,0 +1,54 @@
+{
+    "workspaceExplorer.workspaceStorageDirectory": "/home/pedro/local/src/vs_workspaces",
+    "files.exclude": {
+        "**/.gitee": true,
+        "**/.github": true,
+        "**/.jenkins": true,
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/build": true,
+        "**/cmake": true,
+        "**/output": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true
+    },
+    "clang-tidy.executable": "/usr/bin/clang-tidy",
+    "clang-tidy.checks": [
+        "bugprone-*",
+        "cert-*",
+        "clang-analyser-*",
+        "cppcoreguidelines-*",
+        "google-*",
+        "llvm-*",
+        "misc-*",
+        "modernize-*",
+        "-modernize-use-trailing-return-type",
+        "performance-*",
+        "readability-*"
+    ],
+    "cpplint.cpplintPath": "/home/pedro/local/opt/python/miniforge3/3.10.6/bin/cpplint",
+    "cpplint.lintMode": "single",
+    "cpplint.lineLength": 120,
+    "clang-format.executable": "/usr/bin/clang-format",
+    "clang-format.style": "file",
+    "shellcheck.executablePath": "/home/pedro/local/opt/python/miniforge3/3.10.6/bin/shellcheck",
+    "python.defaultInterpreterPath": "/home/pedro/local/opt/python/miniforge3/3.10.6/bin/python",
+    "python.terminal.activateEnvironment": false,
+    "python.linting.pylintPath": "/home/pedro/local/opt/python/miniforge3/3.10.6/bin/pylint",
+    "python.linting.pylintEnabled": true,
+    "python.linting.pylintArgs": ["--max-line-length=120"],
+    "python.linting.pycodestylePath": "/home/pedro/local/opt/python/miniforge3/3.10.6/bin/pycodestyle",
+    "python.linting.pycodestyleEnabled": true,
+    "python.linting.pycodestyleArgs": ["--max-line-length=120"],
+    "python.linting.pydocstyleEnabled": false,
+    "python.formatting.autopep8Path": "/home/pedro/local/opt/python/miniforge3/3.10.6/bin/autopep8",
+    "python.formatting.autopep8Args": ["--max-line-length", "120", "--experimental"],
+    "[python]": {
+        "gitlens.codeLens.symbolScopes": [
+            "!Module"
+        ],
+        "editor.wordBasedSuggestions": false
+    }
+}

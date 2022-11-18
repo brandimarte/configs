@@ -1,0 +1,361 @@
+#!/bin/bash
+
+error_msg() {
+   echo -e "\n ERROR: wrong number of arguments!\n"
+   echo -e "\n Examples: \"./side_dislay.sh dvi on [3]\" (or 0 or 1 or 2)"
+   echo -e "           \"./side_dislay.sh dvi off\""
+   echo -e "           \"./side_dislay.sh vga on\""
+   echo -e "           \"./side_dislay.sh vga off\""
+   echo -e "           \"./side_dislay.sh tab on [3]\" (or 0 or 1 or 2)"
+   echo -e "           \"./side_dislay.sh tab off\"\n"
+   exit -1
+}
+
+if [ ${#} != 2 ] && [ ${#} != 3 ]
+then
+   error_msg
+fi
+
+#systemctl restart displaylink.service
+#sleep 2
+#systemctl restart display-manager.service
+#sleep 2
+
+#edp="eDP1"
+#dp="DP1"
+edp="eDP-1"
+dp="DP-1"
+
+case ${1} in
+"vga" )
+   case ${2} in
+   "on" )
+      xrandr --output $edp --auto --output $dp --auto --right-of $edp
+      ;;
+   "off" )
+      xrandr --output $edp --auto --output $dp --off
+      ;;
+   esac
+   ;;
+"dvi" )
+   case ${2} in
+   "on" )
+      xrandr --setprovideroutputsource 1 0
+      xrandr --setprovideroutputsource 2 0
+      xrandr --setprovideroutputsource 3 0
+
+      case ${3} in
+      "1" )
+         dvi1=`xrandr --verbose | grep -A100 "DVI-I-1" | grep -m1 -A1 "EDID" | tail -n1 | awk '{print $1}'`
+         #dvi2=`xrandr --verbose | grep -A100 "DVI-I-2" | grep -m1 -A1 "EDID" | tail -n1 | awk '{print $1}'`
+         #dvi3=`xrandr --verbose | grep -A100 "DVI-I-3" | grep -m1 -A1 "EDID" | tail -n1 | awk '{print $1}'`
+         #case "00ffffffffffff0010acdba042593231" in
+         #"${dvi1}")
+         #   ctr="DVI-I-1-1"
+         #   ;;
+         #"${dvi2}")
+         #   ctr="DVI-I-2-2"
+         #   ;;
+         #"${dvi3}")
+            ctr="DVI-I-3-3"
+         #   ;;
+         #esac
+         xrandr --output $edp --auto --output ${ctr} --auto --right-of $edp
+         #xrandr --output $edp --auto --output ${ctr} --auto --rotate right --right-of $edp
+         ;;
+      "2" )
+         dvi1=`xrandr --verbose | grep -A100 "DVI-I-1" | grep -m1 -A1 "EDID" | tail -n1 | awk '{print $1}'`
+         dvi2=`xrandr --verbose | grep -A100 "DVI-I-2" | grep -m1 -A1 "EDID" | tail -n1 | awk '{print $1}'`
+         dvi3=`xrandr --verbose | grep -A100 "DVI-I-3" | grep -m1 -A1 "EDID" | tail -n1 | awk '{print $1}'`
+         case ${dvi1} in
+         "00ffffffffffff0010acdba042593231")
+            lft="DVI-I-1-1"
+            ;;
+         "00ffffffffffff0010acdca042543231")
+            rgt="DVI-I-1-1"
+            ;;
+         esac
+         case ${dvi2} in
+         "00ffffffffffff0010acdba042593231")
+            lft="DVI-I-2-2"
+            ;;
+         "00ffffffffffff0010acdca042543231")
+            rgt="DVI-I-2-2"
+            ;;
+         esac
+         case ${dvi3} in
+         "00ffffffffffff0010acdba042593231")
+            lft="DVI-I-3-3"
+            ;;
+         "00ffffffffffff0010acdca042543231")
+            rgt="DVI-I-3-3"
+            ;;
+         esac
+         xrandr --output $edp --auto --output ${lft} --auto --right-of $edp --output ${rgt} --auto --right-of ${lft}
+         #xrandr --output $edp --auto --output ${lft} --auto --rotate right --right-of $edp --output ${rgt} --auto --rotate right --right-of ${lft}
+         ;;
+      "L2" )
+         dvi1=`xrandr --verbose | grep -A20 "DVI-I-1" | grep -m1 -A1 "EDID" | tail -n1 | awk '{print $1}'`
+         dvi2=`xrandr --verbose | grep -A20 "DVI-I-2" | grep -m1 -A1 "EDID" | tail -n1 | awk '{print $1}'`
+         dvi3=`xrandr --verbose | grep -A20 "DVI-I-3" | grep -m1 -A1 "EDID" | tail -n1 | awk '{print $1}'`
+         case ${dvi1} in
+         "00ffffffffffff0010acdca042573231")
+            lft="DVI-I-1-1"
+            ;;
+         "00ffffffffffff0010acdba042593231")
+            rgt="DVI-I-1-1"
+            ;;
+         esac
+         case ${dvi2} in
+         "00ffffffffffff0010acdca042573231")
+            lft="DVI-I-2-2"
+            ;;
+         "00ffffffffffff0010acdba042593231")
+            rgt="DVI-I-2-2"
+            ;;
+         esac
+         case ${dvi3} in
+         "00ffffffffffff0010acdca042573231")
+            lft="DVI-I-3-3"
+            ;;
+         "00ffffffffffff0010acdba042593231")
+            rgt="DVI-I-3-3"
+            ;;
+         esac
+         xrandr --output $edp --auto --output ${lft} --auto --rotate left --right-of $edp --output ${rgt} --auto --right-of ${lft}
+         #xrandr --output $edp --auto --output ${lft} --auto --rotate right --right-of $edp --output ${rgt} --auto --rotate right --right-of ${lft}
+         ;;
+      * )
+         dvi1=`xrandr --verbose | grep -A100 "DVI-I-1" | grep -m1 -A1 "EDID" | tail -n1 | awk '{print $1}'`
+         dvi2=`xrandr --verbose | grep -A100 "DVI-I-2" | grep -m1 -A1 "EDID" | tail -n1 | awk '{print $1}'`
+         dvi3=`xrandr --verbose | grep -A100 "DVI-I-3" | grep -m1 -A1 "EDID" | tail -n1 | awk '{print $1}'`
+         case ${dvi1} in
+         "00ffffffffffff0010acdba042593231")
+            ctr="DVI-I-1-1"
+            ;;
+         "00ffffffffffff0010acdca042573231")
+            lft="DVI-I-1-1"
+            ;;
+         "00ffffffffffff0010acdca042543231")
+            rgt="DVI-I-1-1"
+            ;;
+         esac
+         case ${dvi2} in
+         "00ffffffffffff0010acdba042593231")
+            ctr="DVI-I-2-2"
+            ;;
+         "00ffffffffffff0010acdca042573231")
+            lft="DVI-I-2-2"
+            ;;
+         "00ffffffffffff0010acdca042543231")
+            rgt="DVI-I-2-2"
+            ;;
+         esac
+         case ${dvi3} in
+         "00ffffffffffff0010acdba042593231")
+            ctr="DVI-I-3-3"
+            ;;
+         "00ffffffffffff0010acdca042573231")
+            lft="DVI-I-3-3"
+            ;;
+         "00ffffffffffff0010acdca042543231")
+            rgt="DVI-I-3-3"
+            ;;
+         esac
+         #xrandr --output $edp --auto --output ${lft} --auto --right-of $edp --output ${ctr} --auto --right-of ${lft} --output ${rgt} --auto --right-of ${ctr}
+         #xrandr --output $edp --auto --output ${lft} --auto --rotate right --right-of $edp --output ${ctr} --auto --rotate right --right-of ${lft} --output ${rgt} --auto --rotate right --right-of ${ctr}
+         xrandr --output $edp --auto --output ${lft} --auto --rotate left --right-of $edp --output ${ctr} --auto --right-of ${lft} --output ${rgt} --auto --rotate right --right-of ${ctr}
+         ;;
+      esac
+      ;;
+   "off" )
+      xrandr --output $edp --auto --output DVI-I-1-1 --off --output DVI-I-2-2 --off --output DVI-I-3-3 --off
+      ;;
+   * )
+      echo -e "\n ERROR: wrong option!\n"
+      echo -e "\n Examples: \"./side_dislay.sh dvi on [3]\" (or 0 or 1 or 2)"
+      echo -e "           \"./side_dislay.sh dvi off\""
+      echo -e "           \"./side_dislay.sh vga on\""
+      echo -e "           \"./side_dislay.sh vga off\""
+      echo -e "           \"./side_dislay.sh tab on [3]\" (or 0 or 1 or 2)"
+      echo -e "           \"./side_dislay.sh tab off\"\n"
+      ;;
+   esac
+   ;;
+"tab" )
+   case ${2} in
+   "on" )
+      xrandr --setprovideroutputsource 1 0
+      xrandr --setprovideroutputsource 2 0
+      xrandr --setprovideroutputsource 3 0
+      stylusid=`xsetwacom list devices | grep "stylus" | awk '{print $7}'`
+
+      case ${3} in
+      "0" )
+         #xrandr --output $edp --auto --rotate left
+         #echo "--[[ nothing ]]--" >> /home/pedro/.config/conky/config.lua
+         xsetwacom set ${stylusid} MapToOutput 1650x800+1220+0
+         ;;
+      "1" )
+         dvi1=`xrandr --verbose | grep -A100 "DVI-I-1" | grep -m1 -A1 "EDID" | tail -n1 | awk '{print $1}'`
+         dvi2=`xrandr --verbose | grep -A100 "DVI-I-2" | grep -m1 -A1 "EDID" | tail -n1 | awk '{print $1}'`
+         dvi3=`xrandr --verbose | grep -A100 "DVI-I-3" | grep -m1 -A1 "EDID" | tail -n1 | awk '{print $1}'`
+         case "00ffffffffffff0010acdba042543231" in
+         "${dvi1}")
+            ctr="DVI-I-1-1"
+            ;;
+         "${dvi2}")
+            ctr="DVI-I-2-2"
+            ;;
+         "${dvi3}")
+            ctr="DVI-I-3-3"
+            ;;
+         esac
+         #xrandr --output $edp --auto --rotate left --output ${ctr} --auto --right-of $edp
+         #echo "--[[ nothing ]]--" >> /home/pedro/.config/conky/config.lua
+         xrandr --output $edp --auto --output ${ctr} --auto --right-of $edp
+         xsetwacom set ${stylusid} MapToOutput 1800x1000+3250+0
+         ;;
+      "2" )
+         dvi1=`xrandr --verbose | grep -A100 "DVI-I-1" | grep -m1 -A1 "EDID" | tail -n1 | awk '{print $1}'`
+         dvi2=`xrandr --verbose | grep -A100 "DVI-I-2" | grep -m1 -A1 "EDID" | tail -n1 | awk '{print $1}'`
+         dvi3=`xrandr --verbose | grep -A100 "DVI-I-3" | grep -m1 -A1 "EDID" | tail -n1 | awk '{print $1}'`
+         case ${dvi1} in
+         "00ffffffffffff0010acdca042593231")
+            lft="DVI-I-1-1"
+            ;;
+         "00ffffffffffff0010acdba042543231")
+            rgt="DVI-I-1-1"
+            ;;
+         esac
+         case ${dvi2} in
+         "00ffffffffffff0010acdca042593231")
+            lft="DVI-I-2-2"
+            ;;
+         "00ffffffffffff0010acdba042543231")
+            rgt="DVI-I-2-2"
+            ;;
+         esac
+         case ${dvi3} in
+         "00ffffffffffff0010acdca042593231")
+            lft="DVI-I-3-3"
+            ;;
+         "00ffffffffffff0010acdba042543231")
+            rgt="DVI-I-3-3"
+            ;;
+         esac
+         #xrandr --output $edp --auto --rotate left --output ${lft} --auto --right-of $edp --output ${rgt} --auto --right-of ${lft}
+         #echo "--[[ nothing ]]--" >> /home/pedro/.config/conky/config.lua
+         xrandr --output $edp --auto --output ${lft} --auto --right-of $edp --output ${rgt} --auto --right-of ${lft}
+         xsetwacom set ${stylusid} MapToOutput 1000x650+3240+0
+         ;;
+      * )
+         dvi1=`xrandr --verbose | grep -A100 "DVI-I-1" | grep -m1 -A1 "EDID" | tail -n1 | awk '{print $1}'`
+         dvi2=`xrandr --verbose | grep -A100 "DVI-I-2" | grep -m1 -A1 "EDID" | tail -n1 | awk '{print $1}'`
+         dvi3=`xrandr --verbose | grep -A100 "DVI-I-3" | grep -m1 -A1 "EDID" | tail -n1 | awk '{print $1}'`
+         case ${dvi1} in
+         "00ffffffffffff0010acdba042543231")
+            ctr="DVI-I-1-1"
+            ;;
+         "00ffffffffffff0010acdca042593231")
+            lft="DVI-I-1-1"
+            ;;
+         "00ffffffffffff0010acdca042573231")
+            rgt="DVI-I-1-1"
+            ;;
+         esac
+         case ${dvi2} in
+         "00ffffffffffff0010acdba042543231")
+            ctr="DVI-I-2-2"
+            ;;
+         "00ffffffffffff0010acdca042593231")
+            lft="DVI-I-2-2"
+            ;;
+         "00ffffffffffff0010acdca042573231")
+            rgt="DVI-I-2-2"
+            ;;
+         esac
+         case ${dvi3} in
+         "00ffffffffffff0010acdba042543231")
+            ctr="DVI-I-3-3"
+            ;;
+         "00ffffffffffff0010acdca042593231")
+            lft="DVI-I-3-3"
+            ;;
+         "00ffffffffffff0010acdca042573231")
+            rgt="DVI-I-3-3"
+            ;;
+         esac
+         #xrandr --output $edp --auto --rotate left --output ${lft} --auto --rotate left --right-of $edp --output ${ctr} --auto --right-of ${lft} --output ${rgt} --auto --rotate right --right-of ${ctr}
+         #echo "--[[ nothing ]]--" >> /home/pedro/.config/conky/config.lua
+         xrandr --output $edp --auto --output ${lft} --auto --rotate left --right-of $edp --output ${ctr} --auto --right-of ${lft} --output ${rgt} --auto --rotate right --right-of ${ctr}
+         xsetwacom set ${stylusid} MapToOutput 1060x650+3210+80
+         ;;
+      esac
+      ;;
+   "off" )
+      xrandr --output $edp --auto --rotate normal --output DVI-I-1-1 --off --output DVI-I-2-2 --off --output DVI-I-3-3 --off
+      sed -i 's/\-\-\[\[ nothing \]\]\-\-//g' /home/pedro/.config/conky/config.lua | sed '$ d'
+      ;;
+   * )
+      echo -e "\n ERROR: wrong option!\n"
+      echo -e "\n Examples: \"./side_dislay.sh dvi on [3]\" (or 0 or 1 or 2)"
+      echo -e "           \"./side_dislay.sh dvi off\""
+      echo -e "           \"./side_dislay.sh vga on\""
+      echo -e "           \"./side_dislay.sh vga off\""
+      echo -e "           \"./side_dislay.sh tab on [3]\" (or 0 or 1 or 2)"
+      echo -e "           \"./side_dislay.sh tab off\"\n"
+      ;;
+   esac
+   ;;
+"alerion" )
+   case ${2} in
+   "on" )
+      xrandr --setprovideroutputsource 1 0
+      xrandr --setprovideroutputsource 2 0
+
+      case ${3} in
+      "1" )
+         dvi1=`xrandr --verbose | grep -A100 "DVI-I-1" | grep -m1 -A1 "EDID" | tail -n1 | awk '{print $1}'`
+         ctr="DVI-I-1-1"
+         xrandr --output $edp --auto --output ${ctr} --auto --right-of $edp
+         ;;
+      "2" )
+         dvi1=`xrandr --verbose | grep -A100 "DVI-I-1" | grep -m1 -A1 "EDID" | tail -n1 | awk '{print $1}'`
+         dvi2=`xrandr --verbose | grep -A100 "DVI-I-2" | grep -m1 -A1 "EDID" | tail -n1 | awk '{print $1}'`
+         case ${dvi1} in
+         "00ffffffffffff001e6d4a5ab4560800")
+            lft="DVI-I-1-1"
+            ;;
+         "00ffffffffffff00220e453501000000")
+            rgt="DVI-I-1-1"
+            ;;
+         esac
+         case ${dvi2} in
+         "00ffffffffffff001e6d4a5ab4560800")
+            lft="DVI-I-2-2"
+            ;;
+         "00ffffffffffff00220e453501000000")
+            rgt="DVI-I-2-2"
+            ;;
+         esac
+         xrandr --output $edp --auto --output ${lft} --auto --right-of $edp --output ${rgt} --auto --right-of ${lft}
+         #xrandr --output $edp --auto --output ${lft} --auto --rotate right --right-of $edp --output ${rgt} --auto --rotate right --right-of ${lft}
+         ;;
+      esac
+      ;;
+   "off" )
+      xrandr --output $edp --auto --output DVI-I-1-1 --off --output DVI-I-2-2 --off
+      ;;
+   * )
+      error_msg
+      ;;
+   esac
+   ;;
+* )
+   error_msg
+   ;;
+esac
+
+exit 0
+
