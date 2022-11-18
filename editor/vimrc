@@ -1,0 +1,30 @@
+syntax on
+set laststatus=2
+set statusline=%<%f%r\ [%{&syntax},%{&fileformat}]\ %h%m%r%=%-14.(%l,%c%V%)\ %P
+set number
+:colorscheme apprentice
+if &diff
+   :colorscheme apprentice
+endif
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
+set directory=~/.vim/swap
+" aiserver-56
+"set directory=/data1/pedro/.vim/swap
+"set nocompatible
+"set backspace=indent,eol,start
+"set viminfo+=n/data1/pedro/.vim/viminfo
+" aiserver-76
+"set directory=/data2/pbm/.vim/swap
+"set nocompatible
+"set backspace=indent,eol,start
+"set viminfo+=n/data2/pbm/.vim/viminfo
+"set runtimepath=/data2/pbm/.vim,$VIMRUNTIME
+"set mouse-=a
+" aiserver-102
+"set directory=/mnt/disk4/pbm/.vim/swap
+"set backspace=indent,eol,start
+"set viminfo+=n/mnt/disk4/pbm/.vim/viminfo
+"set runtimepath=/mnt/disk4/pbm/.vim,$VIMRUNTIME
+"set mouse-=a

@@ -1,0 +1,486 @@
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
+
+# There are 3 different types of shells in bash: the login shell, normal shell
+# and interactive shell. Login shells read ~/.profile and interactive shells
+# read ~/.bashrc; in our setup, /etc/profile sources ~/.bashrc - thus all
+# settings made here will also take effect in a login shell.
+#
+# NOTE: It is recommended to make language settings in ~/.profile rather than
+# here, since multilingual X sessions would not work properly if LANG is over-
+# ridden in every subshell.
+
+# Some applications read the EDITOR variable to determine your favourite text
+# editor. So uncomment the line below and enter the editor of your choice :-)
+#export EDITOR=/usr/bin/vim
+#export EDITOR=/usr/bin/mcedit
+
+# For some news readers it makes sense to specify the NEWSSERVER variable here
+#export NEWSSERVER=your.news.server
+
+# User specific aliases and functions
+
+# If not running interactively, don't do anything.
+[[ $- != *i* ]] && return
+
+# Don't put duplicate lines in the history or lines starting with space or any
+# of those in the history. See bash(1) for more options.
+#HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
+HISTCONTROL=ignoreboth
+
+# Append to the history file, don't overwrite it.
+shopt -s histappend
+
+# For setting history length set HISTSIZE and HISTFILESIZE, see bash(1).
+HISTSIZE=1000000
+HISTFILESIZE=2000000
+
+# Check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# If set, the pattern "**" used in a pathname expansion context will
+# match all files and zero or more directories and subdirectories.
+#shopt -s globstar
+
+# Make less more friendly for non-text input files, see lesspipe(1).
+unamestr=$(uname -r)
+case ${unamestr} in
+*"gentoo"* )
+   ;;
+*)
+   [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+   ;;
+esac
+
+# Set variable identifying the chroot you work in (used in the prompt below).
+#if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
+if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
+   debian_chroot=$(cat /etc/debian_chroot)
+fi
+
+# Set a fancy prompt (non-color, unless we know we "want" color).
+case "${TERM}" in
+xterm-color|*-256color)
+   color_prompt=yes ;;
+esac
+
+# Uncomment for a colored prompt, if the terminal has the capability.
+# It is turned off by default to not distract the user: the focus in a
+# terminal window should be on the output of commands, not on the prompt.
+force_color_prompt=yes
+
+if [ -n "$force_color_prompt" ]; then
+   if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+      # We have color support; assume it's compliant with Ecma-48
+      # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+      # a case would tend to support setf rather than setaf.)
+      color_prompt=yes
+   else
+      color_prompt=
+   fi
+fi
+
+# Where am I?
+case ${unamestr} in
+"Darwin")
+   Iam=$(scutil --get ComputerName) ;;
+*)
+   Iam=$(hostname) ;;
+esac
+
+if [ "$color_prompt" = yes ]; then
+   # Define some colors first:
+   NC='\033[0m'
+   red='\033[0;31m'
+   RED='\033[1;31m'
+   cyan='\033[0;36m'
+   CYAN='\033[1;36m'
+   # Define prompt name.
+   if [ -z "${debian_chroot}" ]; then
+      case ${Iam} in
+         "oberon0.bullx" )
+            PS1="\[${red}\]\u@oberon-ac\[${NC}\]:\[${cyan}\]\w\[${NC}\]\$ " ;;
+         *"aiserver"* )
+            PS1="\[${RED}\]\u@\h\[${NC}\]:\[${CYAN}\]\w\[${NC}\]\$ " ;;
+         *)
+            PS1="\[${red}\]\u@\h\[${NC}\]:\[${cyan}\]\w\[${NC}\]\$ " ;;
+      esac
+   else
+      PS1="${debian_chroot:+($debian_chroot)}\[${red}\]\u@\h\[${NC}\]:\[${cyan}\]\w\[${NC}\]\$ "
+   fi
+else
+   if [ -z "${debian_chroot}" ]; then
+      PS1='\u@\h:\w\$ '
+   else
+      PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+   fi
+fi
+unset color_prompt force_color_prompt
+
+# If this is an xterm set the title to user@host:dir
+case "${TERM}" in
+xterm*|rxvt*)
+   if [ -z "${debian_chroot}" ]; then
+      PS1="\[\e]0;\u@\h: \w\a\]$PS1"
+   else
+      PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+   fi
+   ;;
+*)
+   ;;
+esac
+
+# Enable color support of ls.
+unamestr=$(uname)
+case ${unamestr} in
+"freebsd" | "Darwin")
+   export CLICOLOR=1
+   ;;
+*)
+   if [ -x /usr/bin/dircolors ]; then
+      if test -r ~/.dircolors ; then
+         eval "$(dircolors -b ~/.dircolors)"
+      else
+         eval "$(dircolors -b)"
+      fi
+   fi
+   ;;
+esac
+
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+if [ -f ~/.bash_aliases ]; then
+   . ~/.bash_aliases
+fi
+
+# Enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+   if [ -f /usr/share/bash-completion/bash_completion ]; then
+      . /usr/share/bash-completion/bash_completion
+   elif [ -f /etc/bash_completion ]; then
+      . /etc/bash_completion
+   fi
+fi
+
+# Stack memory.
+case ${unamestr} in
+"freebsd" | "Darwin")
+   ulimit -Ss unlimited ;;
+*)
+   ulimit -s unlimited ;;
+esac
+
+# Source global definitions.
+#if [ -f /etc/bash.bashrc ]; then
+#   . /etc/bash.bashrc
+#fi
+
+# ENVIRONMENT SETUP
+case ${Iam} in
+*"A180911585"* )
+   source ${HOME}/local/opt/lmod/8.4/l5.1.4.9-g9.3.0/lmod/8.4/init/profile
+   module use ${HOME}/local/modules
+   ;;
+*"access"* )
+   export PYTHONPATH=${HOME}/local/lib/python2.6:${HOME}/local/lib:${HOME}/local/lib/python2.6/site-packages:/usr/lib64/python2.6:/usr/lib64/python2.6/site-packages
+   ;;
+*"aiserver-pod06-170-56"* )
+   if [ -f /data1/pedro/.bash_aliases ]; then
+      . /data1/pedro/.bash_aliases
+   fi
+   export TERM="xterm-256color"
+   source /data1/pedro/local/opt/lmod/8.4/g7.3.0/lmod/8.4/init/profile
+   module use /data1/pedro/local/modules
+   export DEVICE_ID=2
+   ;;
+*"aiserver-76"* )
+   if [ -f /data2/pbm/.bash_aliases ]; then
+      . /data2/pbm/.bash_aliases
+   fi
+   HISTFILE=/data2/pbm/.bash_history
+   export TERM="xterm-256color"
+   source /data2/pbm/local/opt/lmod/8.4/g7.3.0/lmod/8.4/init/profile
+   module use /data2/pbm/local/modules
+   export DEVICE_ID=2
+   export USE_ASCEND_DEVICES=7
+   ;;
+*"aiserver-102"* )
+   if [ -f /mnt/disk4/pbm/.bash_aliases ]; then
+      . /mnt/disk4/pbm/.bash_aliases
+   fi
+   HISTFILE=/mnt/disk4/pbm/.bash_history
+   source /mnt/disk4/pbm/local/opt/lmod/8.4/g7.3.0/lmod/8.4/init/profile
+   module use /mnt/disk4/pbm/local/modules
+   ;;
+*"atlas"* | *"login"* )
+   source /scratch/scicomp/CentOS/7.3.1611/Common/Lmod/7.7-GCC-4.8.5/lmod/lmod/init/profile
+   source ${HOME}/local/opt/atlas/lmod/7.7/g6.0.4/lmod/7.7/init/profile
+   module use ${HOME}/local/modules/atlas
+   export TMPDIR=/scratch/pedro/tmp
+   complete -W "$(pbsnodes | grep "^atlas")" ssh
+   # local time zone
+   export TZ='Europe/Madrid'
+   ;;
+*"base"* )
+   # Lmod
+   source /usr/share/lmod/5.8/init/profile
+   module purge
+   module use ${HOME}/local/modules
+   # standard environment variables
+   PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   # local time zone
+   export TZ='Europe/Madrid'
+   ;;
+"bell" )
+   # My modules
+   module use ${HOME}/local/modules
+   # for pacman
+   export VISUAL="vim"
+   ;;
+*"bms-d910-paris1"* )
+   source /data/pbm/local/opt/lmod/8.4/g7.3.0/lmod/8.4/init/profile
+   module use /data/pbm/local/modules
+   # for vscode terminal to work correctly:
+   export DEVICE_ID=4
+   if [ "$TERM_PROGRAM" = vscode ]; then
+      export PROMPT_COMMAND='history -a'
+   fi
+   ;;
+*"bms-d910-paris2"* )
+   # for vscode terminal to work correctly:
+   export DEVICE_ID=4
+   if [ "$TERM_PROGRAM" = vscode ]; then
+      export PROMPT_COMMAND='history -a'
+   fi
+   ;;
+*"brontes"* )
+   module use ${HOME}/local/modules/brontes
+   complete -W "$(pbsnodes | grep "^brontes")" ssh
+   # local time zone
+   export TZ='Europe/Madrid'
+   ;;
+*"eris"* )
+   module use --append ${HOME}/local/modules/eris
+   # local time zone
+   export TZ='Europe/Madrid'
+   ;;
+"fidel" )
+   # LMOD
+   source /usr/share/lmod/lmod/init/profile
+   # My modules
+   module use ${HOME}/local/modules
+   module use --append ${HOME}/local/modules-outdated
+   # bazaar
+   export BZR_REMOTE_COMMAND=/usr/bin/bzr
+   # ALERION - iratxo
+   export PATH=${HOME}/.local/bin:${PATH}
+   # for pacman
+   export VISUAL="vi"
+   # RubyGems executables
+   export PATH=${HOME}/.gem/ruby/2.7.0/bin:${PATH}
+   # Completions for gcloud.
+   source '${HOME}/local/src/gcloud/google-cloud-sdk/completion.bash.inc'
+   ;;
+*"gpu"* | *"phi"* ) # IBM GPU or Xeon PHI
+   export LAMRSH="ssh -x"
+   # Intel
+   source /usr/local/intel2013/composer_xe_2013.1.117/bin/compilervars.sh intel64
+   source /usr/local/intel2013/composer_xe_2013.1.117/mkl/bin/intel64/mklvars_intel64.sh
+   source /usr/local/intel2013/impi/4.1.0.024/bin64/mpivars.sh
+   # OpenMPI
+   PATH=${HOME}/local/lib/openmpi-1.6.5/bin:${PATH}
+   LD_LIBRARY_PATH=${HOME}/local/lib/openmpi-1.6.5/lib:${LD_LIBRARY_PATH}
+   # CUDA
+   LD_LIBRARY_PATH=/usr/local/cuda/lib64:${LD_LIBRARY_PATH}
+   ;;
+*"hemera"* )
+   module use --append ${HOME}/local/modules/hemera
+   complete -W "$(pbsnodes | grep "^hemera")" ssh
+   # local time zone
+   export TZ='Europe/Madrid'
+   ;;
+*"ice"* | *"r1"* ) # SGI/Altix ICE 8400 LX
+   export LAMRSH="ssh -x"
+   # Intel
+   source /usr/local/intel2013/composer_xe_2013.1.117/bin/compilervars.sh intel64
+   source /usr/local/intel2013/composer_xe_2013.1.117/mkl/bin/intel64/mklvars_intel64.sh
+   source /usr/local/intel2013/impi/4.1.0.024/bin64/mpivars.sh
+   ;;
+"iph-bigbang" )
+   # My modules
+   source /mnt/Data/Users/pedro/local/opt/lmod/6.5/g4.9.3/lmod/lmod/init/profile
+   module purge
+   module use ${HOME}/local/modules
+   # Intel
+   source /opt/intel/compilers_and_libraries_2016.2.181/linux/bin/compilervars.sh intel64
+   source /opt/intel/compilers_and_libraries_2016.2.181/linux/mkl/bin/mklvars.sh intel64
+   ;;
+*"josephson"* | *"n0"* )
+   export PYTHONPATH=${HOME}/local/lib/python2.6:${HOME}/local/lib:${HOME}/local/lib/python2.6/site-packages:/usr/lib64/python2.6:/usr/lib64/python2.6/site-packages
+   module use --append ${HOME}/local/modules
+   PATH=${HOME}/local/bin/python:${PATH}
+   ;;
+*"keldysh"* | *"compute-0-"* )
+   # Intel composer and mpi
+   module load compilers/intel-14.0
+   module load libraries/mkl-11.0/intel-14.0
+   module load libraries/openmpi-1.6.5/intel-14.0
+   case ${Iam} in
+      *"keldysh"* )
+         source /opt/intel/composer_xe_2013_sp1.0.080/mkl/bin/intel64/mklvars_intel64.sh
+         source /opt/intel/composer_xe_2013_sp1.0.080/bin/compilervars.sh intel64 ;;
+      *"compute-0-"* )
+         LD_LIBRARY_PATH=/opt/intel/composer_xe_2013_sp1.0.080/compiler/lib/intel64:/opt/intel/composer_xe_2013_sp1.0.080/mpirt/lib/intel64:/opt/intel/composer_xe_2013_sp1.0.080/mkl/lib/intel64:${LD_LIBRARY_PATH} ;;
+   esac
+   # CUDA
+   module load compilers/cuda-5.5
+   module load runtime/cuda-5.5
+   export CUDADIR=/usr/local/cuda-5.5
+   PATH=${CUDADIR}/bin:${PATH}
+   LD_LIBRARY_PATH=${CUDADIR}/lib64:${LD_LIBRARY_PATH}
+   # MAGMA
+   INCLUDE=${HOME}/local/src/magma/magma-1.4.1/include:${INCLUDE}
+   LD_LIBRARY_PATH=${HOME}/local/src/magma/magma-1.4.1/lib:${LD_LIBRARY_PATH}
+   ;;
+*"kondo"* )
+   # Intel
+   module load compilers/intel-14.0
+   module load libraries/mkl-11.0/intel-14.0
+   source /opt/intel/composerxe/mkl/bin/intel64/mklvars_intel64.sh
+   source /opt/intel/composerxe/bin/compilervars.sh intel64
+   # OpenMPI
+   module load libraries/openmpi-1.8.1/intel-14.0
+   # CUDA
+   module load compilers/cuda-6.0
+   module load runtime/cuda-6.0
+   export CUDADIR=/usr/local/cuda
+   PATH=${CUDADIR}/bin:${PATH}
+   LD_LIBRARY_PATH=${CUDADIR}/lib64:${LD_LIBRARY_PATH}
+   ;;
+*"mildred"* )
+   module purge
+   module use ${HOME}/local/modules
+   ;;
+*"oberon"* )
+   module purge
+   module use ${HOME}/local/modules
+   # standard environment variables
+   PATH=/usr/lib64/qt-3.3/bin:/usr/NX/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   # Green code
+   export GREEN_DIR=${HOME}/local/share/green
+   PATH=${GREEN_DIR}/bin:${PATH}
+   # local time zone
+   export TZ='Europe/Madrid'
+   ;;
+"omv" )
+   # for pacman
+   export VISUAL="vi"
+   ;;
+"origin" )
+   # LMOD
+   source /usr/share/lmod/5.8/init/profile
+   # My modules
+   module use ${HOME}/local/modules
+   # Mathematica
+   PATH=${HOME}/local/opt/Wolfram/Mathematica/11.0/bin:${PATH}
+   # vmd
+   PATH=${HOME}/local/opt/vmd-1.9.2/bin:${PATH}
+   LD_LIBRARY_PATH=${HOME}/local/opt/vmd-1.9.2/lib:${LD_LIBRARY_PATH}
+   # Google Go
+   export GOPATH=/usr
+   # bazaar
+   export BZR_REMOTE_COMMAND=/usr/bin/bzr
+
+   #export DYLD_LIBRARY_PATH
+   export PYTHONPATH
+   ;;
+*"pauling"* | *"r1n"* )
+   ;;
+*"ponto"* | *"cn"* )
+   module use --append ${HOME}/local/modules/ponto
+   export TMPDIR=/scratch/pedro/tmp
+   # local time zone
+   export TZ='Europe/Madrid'
+   ;;
+*"puma"* )
+   export LAMRSH="ssh -x"
+   . /etc/profile
+   # Intel composer
+   source /opt/intel/bin/compilervars.sh intel64
+   export INTEL_COMPILER=/opt/intel/bin
+   export INTEL_LIBS=/opt/intel/lib/intel64:/opt/intel/lib/intel64/crt:/opt/intel/ipp/lib/intel64:/opt/intel/ipp/lib/intel64/nonpic:/opt/intel/mkl/lib/intel64:/opt/intel/tbb/lib/intel64/gcc4.1
+   INCLUDE=/opt/intel/composer_xe_2013.4.183/compiler/include:/opt/intel/composer_xe_2013.4.183/ipp/include:/opt/intel/composer_xe_2013.4.183/tbb/include/tbb:${INCLUDE}
+   LD_LIBRARY_PATH=/usr/local/lib:/usr/lib64:/usr/lib:/lib64:/lib:/lib32:${HOME}/lib:${INTEL_LIBS}
+   # OpenMPI
+   LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/scratch/programas/intel/ompi-1.6-intel/lib
+   # python e numpy
+   export PYTHONPATH=${PYTHONPATH}:/scratch/pedro/lib64/python2.4/site-packages:/scratch/pedro/lib
+   PATH=${PATH}:/scratch/pedro/bin:/scratch/pedro/lib64/python2.4/site-packages
+   LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/scratch/pedro/lib:/scratch/pedro/lib64/python2.4/site-packages
+   ;;
+*"romeo"* )
+   ;;
+*"sdumont"* )
+   module use --append ${HOME}/local/modules
+   ;;
+*"sg"* ) # SGI/Altix 1350 and 450 (athenas)
+   export LAMRSH="ssh -x"
+   # Intel
+   source /usr/local/intel/Compiler/11.1/075/bin/ia64/ifortvars_ia64.sh
+   source /usr/local/intel/Compiler/11.1/075/bin/ia64/iccvars_ia64.sh
+   LD_LIBRARY_PATH=/usr/local/intel/mkl/10.2.7.041/lib/64:${LD_LIBRARY_PATH}
+   INCLUDE=/usr/local/intel/mkl/10.2.7.041/include:${INCLUDE}
+   ;;
+"uday-desktop" | "SPOCK" )
+   # My modules
+   source /mnt/Data/pedro/local/opt/lmod/6.5/g5.4.0/lmod/lmod/init/profile
+   module purge
+   module use ${HOME}/local/modules
+   ;;
+*)
+   ;;
+esac
+
+# Set locale (may be need for ssh, X11 etc.).
+#export LC_ALL=en_US
+
+# My things.
+
+case ${Iam} in
+*"aiserver-pod06-170-56"* )
+   MYHOME=/data1/pedro ;;
+*"aiserver-76"* )
+   MYHOME=/data2/pbm ;;
+*"aiserver-102"* )
+   MYHOME=/mnt/disk4/pbm ;;
+*"bms-d910-paris"* )
+   MYHOME=/data/pbm ;;
+*)
+   MYHOME=${HOME} ;;
+esac
+
+if [ -z "${PATH}" ]; then
+   PATH=${MYHOME}/local/bin
+else
+   PATH=${MYHOME}/local/bin:${PATH}
+fi
+if [ -z "${LD_LIBRARY_PATH}" ]; then
+   LD_LIBRARY_PATH=${MYHOME}/local/lib
+else
+   LD_LIBRARY_PATH=${MYHOME}/local/lib:${LD_LIBRARY_PATH}
+fi
+if [ -z "${INCLUDE}" ]; then
+   INCLUDE=${MYHOME}/local/include
+else
+   INCLUDE=${MYHOME}/local/include:${INCLUDE}
+fi
+
+export PATH
+export LD_LIBRARY_PATH
+export INCLUDE

@@ -1,0 +1,254 @@
+# .bash_aliases
+
+# First check where I am.
+unamestr=$(uname)
+case ${unamestr} in
+"Darwin")
+   Iam=$(scutil --get ComputerName)
+   export LSCOLORS=ExFxExDxCxegedabagaced
+   ;;
+*)
+   Iam=$(hostname) ;;
+esac
+
+# ls, grep and other color aliases
+if [ -x /usr/bin/dircolors ]; then
+   #alias ls='ls -h --color=auto'
+   #alias ll='ls -l'
+   #alias la='ls -Ahlst'
+   alias ll='ls -alF'
+   alias la='ls -A'
+   alias lt='ls -alt'
+   alias l='ls -CF'
+
+   #alias dir='dir --color=auto'
+   #alias vdir='vdir --color=auto'
+
+   # some grep aliases
+   alias grep='grep --color=auto'
+   alias fgrep='fgrep --color=auto'
+   alias egrep='egrep --color=auto'
+   #alias igrep='grep -i'
+   #export GREP_OPTIONS="--color=auto"
+   #export GREP_COLOR="4;33"
+
+   # colored GCC warnings and errors
+   #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+   alias ls='ls --color'
+   #export LSCOLORS=ExFxExDxCxegedabagaced
+   case ${Iam} in
+   *"aiserver"* )
+      export LS_COLORS='di=1;36:fi=0:ln=1;35:pi=5:so=5:bd=34;46:cd=34;43:or=31:mi=0:ex=1;32:*.rpm=90'
+      export GREP_COLORS='fn=01;36'
+      ;;
+   *)
+      export LS_COLORS='di=1;34:fi=0:ln=1;35:pi=5:so=5:bd=34;46:cd=34;43:or=31:mi=0:ex=1;32:*.rpm=90' ;;
+   esac 
+fi
+
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+# modules
+alias mlv='module avail'
+alias mll='module list'
+alias mlo='module load'
+alias mlu='module unload'
+alias mlp='module purge'
+
+# some shortcuts
+alias x='exit'
+alias e='emacs'
+#alias diffy="diff -y --suppress-common-lines -W 200"
+#alias qs='qstat -au pedro'
+
+# Weather forecast.
+alias weather='curl wttr.in/Donostia'
+
+# apps
+case ${Iam} in
+*"aiserver-pod06-170-56"* )
+   alias vi='/usr/bin/vim -u /data1/pedro/.vimrc'
+   alias vimdiff='/usr/bin/vimdiff -u /data1/pedro/.vimrc'
+   # mkdir with non-default permissions
+   alias mkdrx='mkdir -m755'
+   ;;
+*"aiserver-76"* )
+   alias vi='/usr/bin/vim -u /data2/pbm/.vimrc'
+   alias vimdiff='/usr/bin/vimdiff -u /data2/pbm/.vimrc'
+   ;;
+*"aiserver-102"* )
+   alias vi='/usr/bin/vim -u /mnt/disk4/pbm/.vimrc'
+   alias vimdiff='/usr/bin/vimdiff -u /mnt/disk4/pbm/.vimrc'
+   ;;
+*"atlas"* | *"login"* )
+   alias vi='/usr/bin/vim' ;;
+"bell" | "fidel")
+   # pacman and yay aliases
+   alias pac_u='sudo pacman -Syu'
+   alias pac_yu='yay -Syu --aur'
+   alias pac_s='sudo pacman -Ss '
+   alias pac_ys='yay -Ss '
+   alias pac_i='sudo pacman -S '
+   alias pac_yi='yay -S '
+   alias pac_d='sudo pacman -Qdt'
+   alias pac_yd='yay -Qdt'
+   alias pac_pl='pacman -Qqen > ${HOME}/.pkglist'
+   alias pac_ypl='pacman -Qm > ${HOME}/.pkglistaur'
+   alias pac_r='sudo pacman -Rsn'
+   # System management
+   alias anyfail='systemctl list-unit-files --state=failed'
+   alias anyserr='journalctl -p 3 -xb'
+   alias anyxerr='grep "] (EE)" ${HOME}/.local/share/xorg/Xorg.0.log'
+   # jabref
+   alias s='gpicview'
+   alias rs='rsync -av'
+   ;;
+"omv" )
+   # pacman aliases
+   alias pac_u='sudo pacman -Syu'
+   alias pac_s='sudo pacman -Ss '
+   alias pac_i='sudo pacman -S '
+   alias pac_d='sudo pacman -Qdt'
+   alias pac_pl='pacman -Qqen > ${HOME}/.pkglist'
+   alias pac_r='sudo pacman -Rsn'
+   # System management
+   alias anyfail='systemctl list-unit-files --state=failed'
+   alias anyserr='journalctl -p 3 -xb'
+   ;;
+"origin" )
+   alias loopProfileViewer='sh /opt/intel/composer_xe_2013.1.119/bin/intel64/loopprofileviewer.sh'
+   alias m_mac='sudo mount -t hfsplus -o uid=1000,gid=1000 /dev/sda2 /media/pedro/mac-hd'
+   alias u_mac='sudo umount /media/pedro/mac-hd'
+   # Completions for gcloud.
+   source '${HOME}/local/src/gcloud/google-cloud-sdk-121.0.0/completion.bash.inc'
+   # VPN
+   alias vpn='/opt/cisco/anyconnect/bin/vpn'
+   alias vpnui='/opt/cisco/anyconnect/bin/vpnui'
+   ;; 
+*)
+   ;;
+esac
+
+# SSH alias
+case ${Iam} in
+"bell" | "fidel" | "origin" )
+   #
+   # machines
+   #
+   alias altix='ssh almsi'
+   alias altix='ssh altix'
+   #alias atlas='ssh -X -L 9191:localhost:9991 ac-02.sw.ehu.es -t ssh -L 9191:localhost:22 atlas-fdr.sw.ehu.es -t /usr/bin/bash'
+   alias atlas='ssh -X -L 9191:localhost:9991 ac-02.sw.ehu.es -t ssh -L 9191:localhost:22 atlas-fdr-login-02.sw.ehu.es -t /usr/bin/bash'
+   #alias atlas='ssh -X -L 9191:localhost:9191 ac-02.sw.ehu.es -t ssh -L 9191:localhost:22 atlas-fdr.sw.ehu.es'
+   alias tunatlas='ssh -v -L 9991:atlas-fdr.sw.ehu.es:22 -N ac-02.sw.ehu.es o ssh -v -L 9991:atlas-fdr.sw.ehu.es:22 ac-02.sw.ehu.es -t /usr/bin/bash'
+   alias pipeatlas='ssh -X -p 9991 localhost -t /usr/bin/bash'
+   #alias atlast='ssh -X atlas-fdr.sw.ehu.es -t /usr/bin/bash'
+   alias atlast='ssh -X atlas-fdr-login-02.sw.ehu.es -t /usr/bin/bash'
+   alias atlasproxy='ssh -D 9955 ac-02.sw.ehu.es -t /usr/bin/bash'
+   alias oberonproxy='ssh -D 9955 oberon.sn.ehu.es'
+   alias tundrone='ssh -v -L 9991:192.168.168.1:22 -N alerion@10.42.0.1 o ssh -v -L 9991:192.168.168.1:22 alerion@10.42.0.1'
+   alias bigbang='ssh bigbang'
+   alias brontes='ssh -X -L 8643:localhost:8643 ac-02.sw.ehu.es -t ssh -L 8643:localhost:22 brontes.sw.ehu.es'
+   alias pipebrontes='ssh -X -p 8643 localhost'
+   alias cfm='ssh -L 6635:localhost:6635 oberon.sn.ehu.es -t ssh -L 6635:localhost:22 158.227.181.82'
+   alias pipecfm='ssh -p 6635 localhost'
+   alias dipc='ssh -X ac-02.sw.ehu.es'
+   alias eris='ssh -X -L 5245:localhost:5245 ac-02.sw.ehu.es -t ssh -L 5245:localhost:22 eris.sw.ehu.es'
+   alias pipeeris='ssh -X -p 5245 localhost'
+   alias grid='ssh grid'
+   alias gpucnpd='ssh -i ~/.ssh/cenapad_rsa -L 3007:localhost:3007 pbrandi@cenapad.unicamp.br -t ssh -L 3007:localhost:22 pbrandi@gpuno01'
+   alias pipegpucnpd='ssh -p 3007 pbrandi@localhost'
+   alias hemera='ssh -X -L 7863:localhost:7863 ac-02.sw.ehu.es -t ssh -L 7863:localhost:22 hemera.sw.ehu.es'
+   alias pipehemera='ssh -X -p 7863 localhost'
+   alias ice='ssh -i ~/.ssh/cenapad_rsa -L 5342:localhost:5342 pbrandi@cenapad.unicamp.br -t ssh -L 5342:localhost:22 pbrandi@ice'
+   alias pipeice='ssh -p 5342 pbrandi@localhost'
+   alias jose='ssh josephson.if.usp.br'
+   alias keldysh='ssh keld'
+   alias keldyshproxy='ssh -D 9955 keld'
+   alias kondo='ssh -L 9235:localhost:9235 186.217.212.62 -t ssh -L 9235:localhost:22 cmp-kondo.ift.unesp.br'
+   alias laquesis='ssh -X -L 7752:localhost:7752 ac-02.sw.ehu.es -t ssh -L 7752:localhost:22 laquesis.sw.ehu.es'
+   alias vgllaquesis='vglconnect laquesis-03.sw.ehu.es'
+   alias pipelaque='ssh -X -p 7752 localhost'
+   alias mildred='ssh mildred'
+   alias nvidia='ssh -L 5901:localhost:5901 -C -N -l alerion 192.168.1.232'
+   alias oberon='ssh -X oberon.sn.ehu.es'
+   alias oberonproxy='ssh -D 9955 oberon.sn.ehu.es'
+   alias oberon2='ssh -X oberon-ac.sn.ehu.es'
+   alias oberon2proxy='ssh -D 9955 oberon-ac.sn.ehu.es'
+   alias omv='ssh omv'
+   alias omvproxy='ssh -D 9955 omv'
+   alias pauling='ssh pauling'
+   alias ponto='ssh -X -L 8853:localhost:8853 ac-02.sw.ehu.es -t ssh -L 8853:localhost:22 ponto.sw.ehu.es'
+   alias pipeponto='ssh -X -p 8853 localhost'
+   alias puma='ssh -i ~/.ssh/shark_rsa -L 8042:localhost:8042 shark.lcca.usp.br -t ssh -L 8042:localhost:22 puma'
+   alias quasar='ssh quasar'
+   alias romeo='ssh romeo'
+   alias sdumont='ssh sdumont'
+   alias shark='ssh shark'
+   alias schroedinger='ssh -p 3001 schroedinger.if.usp.br'
+   #
+   # cloud computing
+   #
+   alias gobase='ssh brandimarte@104.197.118.143'
+   alias start_gobase='gcloud compute instances start us-central1-a/base'
+   alias stop_gobase='gcloud compute instances stop us-central1-a/base'
+   alias gobase-b='ssh brandimarte@104.154.48.34'
+   alias start_gobase-b='gcloud compute instances start us-central1-b/base-b'
+   alias stop_gobase-b='gcloud compute instances stop us-central1-b/base-b'
+   alias gobase-c='ssh brandimarte@104.198.10.7'
+   alias start_gobase-c='gcloud compute instances start us-west1-a/base-c'
+   alias stop_gobase-c='gcloud compute instances stop us-west1-a/base-c'
+   #
+   # repositories
+   #
+   alias siestarepo='ssh pbrandimarte@nano.uab.es'
+   ;; 
+*)
+   ;;
+esac
+
+# SSHFS alias
+case ${Iam} in
+"bell" | "fidel" | "origin" )
+   #
+   # machines
+   #
+   alias m_almsi='sshfs -o idmap=user -o IdentityFile=~/.ssh/almsi_rsa 192.168.1.150:/ ${HOME}/machines/almsi -C'
+   alias u_almsi='fusermount -u ${HOME}/machines/almsi'
+   alias m_atlas='sshfs -o idmap=user -o IdentityFile=~/.ssh/dipc_rsa localhost:/ ${HOME}/machines/atlas -C -p 9991'
+   alias m_atlast='sshfs -o idmap=user -o IdentityFile=~/.ssh/dipc_rsa atlas-fdr-login02.sw.ehu.es:/ ${HOME}/machines/atlas -C'
+   alias u_atlas='fusermount -u ${HOME}/machines/atlas'
+   alias m_dipc='sshfs -o idmap=user ac-02.sw.ehu.es:/dipc-home/pedro ${HOME}/machines/dipc -C'
+   alias u_dipc='fusermount -u ${HOME}/machines/dipc'
+   alias m_oberon='sshfs -o idmap=user oberon.sn.ehu.es:/ ${HOME}/machines/oberon -C'
+   alias u_oberon='fusermount -u ${HOME}/machines/oberon'
+   alias m_oberon2='sshfs -o idmap=user oberon-ac.sn.ehu.es:/ ${HOME}/machines/oberon2 -C'
+   alias u_oberon2='fusermount -u ${HOME}/machines/oberon2'
+   alias m_ctoberon='sshfs -o idmap=user oberon.sn.ehu.es:/scratch/pedro/doc ${HOME}/machines/ctoberon -C'
+   alias u_ctoberon='fusermount -u ${HOME}/machines/ctoberon'
+   alias m_omv='sshfs -o idmap=user -o IdentityFile=${HOME}/.ssh/omv_rsa 192.168.1.162:/ ${HOME}/machines/omv -C'
+   alias u_omv='fusermount -u ${HOME}/machines/omv'
+   alias m_origin='sshfs -o idmap=user -o IdentityFile=${HOME}/.ssh/origin_rsa 158.227.180.84:/home/pedro ${HOME}/machines/origin -C'
+   alias u_origin='fusermount -u ${HOME}/machines/origin'
+   alias m_sdumont='sshfs -o idmap=user -o IdentityFile=~/.ssh/sdumont_rsa pedro.brandimarte@login.sdumont.lncc.br:/ ${HOME}/machines/sdumont -C'
+   alias u_sdumont='fusermount -u ${HOME}/machines/sdumont'
+   alias m_nvidia='sshfs -o idmap=user alerion@192.168.1.199:/ ${HOME}/machines/nvidia -C'
+   alias u_nvidia='fusermount -u ${HOME}/machines/nvidia'
+   alias vnc_nvidia='sshfs -o idmap=user alerion@192.168.10.160:/ ${HOME}/machines/nvidia -C'
+   #
+   # cloud computing
+   #
+   alias m_gobase='sshfs -o idmap=user 104.197.118.143:/ ${HOME}/machines/gcloud-base -C'
+   alias u_gobase='fusermount -u ${HOME}/machines/gcloud-base'
+   alias m_gobase-b='sshfs -o idmap=user 104.154.48.34:/ ${HOME}/machines/gcloud-base-b -C'
+   alias u_gobase-b='fusermount -u ${HOME}/machines/gcloud-base-b'
+   alias m_gobase-c='sshfs -o idmap=user 104.198.10.7:/ ${HOME}/machines/gcloud-base-c -C'
+   alias u_gobase-c='fusermount -u ${HOME}/machines/gcloud-base-c'
+   ;; 
+*)
+   ;;
+esac
+
