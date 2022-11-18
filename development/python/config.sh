@@ -8,7 +8,7 @@ install_path=${base_path}/miniforge3/${python_version}
 
 wget https://github.com/conda-forge/miniforge/releases/download/22.9.0-1/Miniforge3-22.9.0-1-Linux-x86_64.sh
 
-bash Miniforge3-22.9.0-1-Linux-x86_64.sh -b -p ${install_path} 
+bash Miniforge3-22.9.0-1-Linux-x86_64.sh -b -p "${install_path}"
 
 module load python
 
