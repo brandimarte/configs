@@ -1,0 +1,29 @@
+#!/bin/bash
+
+if [ ${#} != 1 ]
+then
+   echo -e "\n ERROR: wrong number of arguments!\n"
+   echo -e "\n Usage example: \"set_brightness 15000\"\n"
+   exit -1
+fi
+
+re='^\-?[0-9]+$'
+if ! [[ ${1} =~ ${re} ]]
+then
+   echo -e "\n ERROR: parameter is not a number!\n"
+   echo -e "\n Usage example: \"set_brightness 15000\"\n"
+   exit -1
+fi
+
+if (( ${1} > 96000 ))
+then
+   echo 96000 > /sys/class/backlight/intel_backlight/brightness
+elif (( ${1} < 0 ))
+then
+   echo 0 > /sys/class/backlight/intel_backlight/brightness
+else
+   echo ${1} > /sys/class/backlight/intel_backlight/brightness
+fi
+
+exit 0
+
