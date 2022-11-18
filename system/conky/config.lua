@@ -123,10 +123,10 @@ ${offset 10}${color4} ${top_mem name 4}${alignr}${top_mem pid 4}  ${top_mem mem 
 \
 ${voffset 6}${color2}Disk ${color3}${hr 1}
 ${voffset 2}${offset 8}${color5}Storage: ${fs_used_perc /}%  ${fs_used /} / ${fs_size /} ${fs_bar 6 /}
-${voffset 4}${offset 12}${color4}documents${tab 6,0}${execi 120 cat ~/.storage/docnum}${tab 6,0}${execibar 120 cat ~/.storage/docval}
-${offset 12}src${tab 28,0}${execi 120 cat ~/.storage/srcnum}${tab 28,0}${execibar 120 cat ~/.storage/srcval}
-${offset 12}pictures${tab 21,0}${execi 120 cat ~/.storage/picnum}${tab 21,0}${execibar 120 cat ~/.storage/picval}
-${offset 12}music${tab 28,0}${execi 120 cat ~/.storage/musnum}${tab 28,0}${execibar 120 cat ~/.storage/musval}
+${voffset 4}${offset 12}${color4}documents${tab 10,0}${execi 120 cat ~/.storage/docnum}${tab 10,0}${execibar 120 cat ~/.storage/docval}
+${offset 12}local${tab 42,0}${execi 120 cat ~/.storage/srcnum}${tab 10,0}${execibar 120 cat ~/.storage/srcval}
+${offset 12}pictures${tab 41,0}${execi 120 cat ~/.storage/picnum}${tab 10,0}${execibar 120 cat ~/.storage/picval}
+${offset 12}music${tab 41,0}${execi 120 cat ~/.storage/musnum}${tab 10,0}${execibar 120 cat ~/.storage/musval}
 ${voffset 2}${offset 8}${color5}read: ${diskio_read}
 ${color5}${voffset -3}${offset 8}${diskiograph_read /dev/nvme0n1p2 14,230 999999 CC0000 -t}
 ${voffset -6}${offset 8}${color5}write: ${diskio_write} 

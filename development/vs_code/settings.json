@@ -50,5 +50,8 @@
             "!Module"
         ],
         "editor.wordBasedSuggestions": false
-    }
+    },
+    "isort.path": [
+        "/home/pedro/local/opt/python/miniforge3/3.10.6/bin/isort"
+    ]
 }
