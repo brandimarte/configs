@@ -78,7 +78,8 @@ launcher_tooltip = 0
 launcher_item_app = /usr/share/applications/pcmanfm.desktop
 launcher_item_app = /usr/share/applications/spotify.desktop
 launcher_item_app = /usr/share/applications/firefox.desktop
-launcher_item_app = /usr/share/applications/visual-studio-code.desktop
+launcher_item_app = /usr/share/applications/torbrowser.desktop
+launcher_item_app = /usr/share/applications/code.desktop
 launcher_item_app = /usr/share/applications/terminator.desktop
 
 # TASKBAR

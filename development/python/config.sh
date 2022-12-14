@@ -13,7 +13,7 @@ bash Miniforge3-22.9.0-1-Linux-x86_64.sh -b -p "${install_path}"
 module load python
 
 conda install -k -y python=${python_version}
-conda install pylint pycodestyle autopep8 cpplint cppcheck shellcheck
+conda install pylint pycodestyle autopep8 cpplint cppcheck shellcheck jupyter isort pytest
 pip install compdb
 conda clean -y -a
 
