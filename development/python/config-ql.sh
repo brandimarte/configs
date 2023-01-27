@@ -13,10 +13,13 @@ bash Miniforge3-22.9.0-1-Linux-x86_64.sh -b -p "${install_path}"
 module load python
 
 conda install -k -y python=${python_version}
-conda install pylint pycodestyle autopep8 cpplint cppcheck shellcheck jupyter isort pytest matplotlib pillow pylatexenc seaborn pyparsing contourpy kiwisolver fonttools pandas pytz pydot rustworkx h5py pennylane qiskit-terra qiskit-ibmq-provider qiskit-ignis qiskit-finance qiskit-optimization qiskit-machine-learning
+conda install pylint pycodestyle autopep8 cpplint cppcheck shellcheck jupyter isort pytest matplotlib pillow pylatexenc seaborn pyparsing contourpy kiwisolver fonttools pandas pytz pydot rustworkx h5py pennylane qiskit-terra qiskit-ibmq-provider qiskit-ignis qiskit-finance qiskit-optimization qiskit-machine-learning azure-core azure-storage-blob azure-identity msrest protobuf'<4.0' aiohttp markdown caio yarl multidict frozenlist msal isodate oauthlib py deprecated aiofile python-markdown-math retry pytest-asyncio cirq-core cirq-ionq duet-python networkx mock
+conda install -c microsoft qsharp notebook
 pip install compdb
 pip install qiskit[visualization]
 pip install qiskit[nature]
+pip install --upgrade azure-quantum[qiskit]
+pip install asyncmock
 
 conda clean -y -a
 
