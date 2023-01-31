@@ -6,7 +6,7 @@ local basepath = pathJoin(os.getenv("HOME"), "local/opt", modulename, version, c
 whatis("Loads "..modulename.." ("..version..") compiled with "..compiler)
 
 -- requires
-load("python/mforge-3.10.6")
+depends_on("python/mforge-3.10.6")
 prereq("python/mforge-3.10.6")
 
 -- conflicts
