@@ -1,5 +1,5 @@
 local modulename = "llvm"
-local version = "16.0.0git"
+local version = "15.0.7"
 local compiler = "g12.2.1-p3.10.6"
 local basepath = pathJoin(os.getenv("HOME"), "local/opt", modulename, version, compiler)
 

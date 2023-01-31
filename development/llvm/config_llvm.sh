@@ -2,7 +2,10 @@
 
 set -e
 
-version=16.0.0git
+module purge
+module load python
+
+version=15.0.7
 gcc_version=$(gcc -dumpversion)
 python_version=$(python --version | awk '{print $2}')
 base_path=/home/pedro/local/opt/llvm
@@ -10,12 +13,12 @@ install_path=${base_path}/${version}/g${gcc_version}-p${python_version}
 
 mkdir -p "${install_path}"
 
-module purge
-module load python
+#git clone --depth=1 https://github.com/llvm/llvm-project.git
+#cd llvm-project || exit
 
-git clone --depth=1 https://github.com/llvm/llvm-project.git
-
-cd llvm-project || exit
+wget https://github.com/llvm/llvm-project/releases/download/llvmorg-${version}/llvm-project-${version}.src.tar.xz
+tar -xvf llvm-project-${version}.src.tar.xz
+cd llvm-project-${version}.src || exit
 
 mkdir build && cd build || exit
 
