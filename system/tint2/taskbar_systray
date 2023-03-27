@@ -72,7 +72,7 @@ border_color = #FFFFFF 0
 
 # PANEL
 panel_items = TSBLC
-panel_size = 85% 36
+panel_size = 82% 36
 panel_margin = 0 0
 panel_padding = 2 0 2
 panel_background_id = 1

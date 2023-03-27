@@ -38,7 +38,7 @@ border_color_pressed = #eaeaea 44
 
 # PANEL
 panel_items = LT
-panel_size = 15% 36
+panel_size = 18% 36
 panel_margin = 0 0
 panel_padding = 2 2 0
 panel_background_id = 1
@@ -79,6 +79,7 @@ launcher_item_app = /usr/share/applications/pcmanfm.desktop
 launcher_item_app = /usr/share/applications/spotify.desktop
 launcher_item_app = /usr/share/applications/firefox.desktop
 launcher_item_app = /usr/share/applications/torbrowser.desktop
+launcher_item_app = /usr/share/applications/JabRef.desktop
 launcher_item_app = /usr/share/applications/code.desktop
 launcher_item_app = /usr/share/applications/terminator.desktop
 
