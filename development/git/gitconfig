@@ -1,0 +1,37 @@
+[user]
+   email = brandimarte@pm.me
+   name = brandimarte
+[core]
+   #autocrlf = input
+   #filemode = false
+[color]
+   ui = always
+[push]
+   default = upstream
+[alias]
+   lg = log --decorate --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+   ci = commit
+   st = status
+   br = branch
+   co = checkout
+   pr = pull --rebase
+   # unpushed changes on all local branches
+   upc = log --branches --not --remotes --simplify-by-decoration --decorate --oneline
+   codp = !git checkout develop && git pull
+[rerere]
+   enabled = true
+[help]
+   autocorrect = 1
+[credential]
+   helper = cache
+[diff]
+   tool = meld
+[http]
+   sslVerify = false
+[https]
+   sslVerify = false
+[filter "lfs"]
+   process = git-lfs filter-process
+   required = true
+   clean = git-lfs clean -- %f
+   smudge = git-lfs smudge -- %f
