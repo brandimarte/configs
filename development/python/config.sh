@@ -13,7 +13,7 @@ bash Miniforge3-22.9.0-1-Linux-x86_64.sh -b -p "${install_path}"
 module load python
 
 conda install -k -y python=${python_version}
-conda install autopep8 conda=22.9.0 cppcheck cpplint isort jupyter matplotlib numpy opencv pillow pycodestyle pylint pytest pytorch shellcheck torchvision visdom
+conda install autopep8 conda=22.9.0 cppcheck cpplint isort jupyter libjpeg-turbo=2.1.4 libpng matplotlib numpy opencv pillow pycodestyle pylint pytest pytorch shellcheck torchvision visdom
 pip install compdb thop
 conda clean -y -a
 
