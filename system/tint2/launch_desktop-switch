@@ -79,8 +79,10 @@ launcher_item_app = /usr/share/applications/pcmanfm.desktop
 launcher_item_app = /usr/share/applications/spotify.desktop
 launcher_item_app = /usr/share/applications/firefox.desktop
 launcher_item_app = /usr/share/applications/torbrowser.desktop
+# launcher_item_app = /home/pedro/local/opt/chrome-remote/app/chrome-efmjfjelnicpmdcmfikempdhlmainjcb-Profile_1.desktop
 launcher_item_app = /usr/share/applications/JabRef.desktop
-launcher_item_app = /usr/share/applications/code.desktop
+# launcher_item_app = /usr/share/applications/code.desktop
+launcher_item_app = /usr/share/applications/visual-studio-code-insiders.desktop
 launcher_item_app = /usr/share/applications/terminator.desktop
 
 # TASKBAR
