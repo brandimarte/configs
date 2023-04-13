@@ -156,6 +156,17 @@ case ${1} in
       error_msg ;;
    esac
    ;;
+"vicom" )
+   dvi1=$(xrandr | grep " connected" | grep "^D" | awk '{print $1}')
+   case ${2} in
+   "on" )
+      xrandr --output $edp --auto --output $dvi1 --auto --right-of $edp
+      ;;
+   "off" )
+      xrandr --output $edp --auto --output $dvi1 --off
+      ;;
+   esac
+   ;;
 "tab" )
    case ${2} in
    "on" )
