@@ -83,7 +83,7 @@ case ${Iam} in
    alias vi='/usr/bin/vim -u /mnt/disk4/pbm/.vimrc'
    alias vimdiff='/usr/bin/vimdiff -u /mnt/disk4/pbm/.vimrc'
    ;;
-*"atlas"* | *"login"* )
+*"atlas"* | *"login"* | "CPU00446U" )
    alias vi='/usr/bin/vim' ;;
 "bell" | "fidel")
    # pacman and yay aliases
@@ -102,9 +102,10 @@ case ${Iam} in
    alias anyfail='systemctl list-unit-files --state=failed'
    alias anyserr='journalctl -p 3 -xb'
    alias anyxerr='grep "] (EE)" ${HOME}/.local/share/xorg/Xorg.0.log'
-   # jabref
-   alias s='gpicview'
+   # others
    alias rs='rsync -av'
+   alias s='gpicview'
+   alias c='code-insiders'
    ;;
 "omv" )
    # pacman aliases

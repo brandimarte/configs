@@ -265,6 +265,12 @@ case ${Iam} in
    # local time zone
    export TZ='Europe/Madrid'
    ;;
+"CPU00446U" )
+   # LMOD
+   source /usr/share/lmod/lmod/init/profile
+   # My modules
+   module use ${HOME}/local/modules
+   ;;
 *"eris"* )
    module use --append ${HOME}/local/modules/eris
    # local time zone
@@ -437,6 +443,10 @@ case ${Iam} in
    LD_LIBRARY_PATH=/usr/local/intel/mkl/10.2.7.041/lib/64:${LD_LIBRARY_PATH}
    INCLUDE=/usr/local/intel/mkl/10.2.7.041/include:${INCLUDE}
    ;;
+"sheldon" | *"abacus"* )
+   module purge
+   module use --append ${HOME}/local/modules
+   ;;
 "uday-desktop" | "SPOCK" )
    # My modules
    source /mnt/Data/pedro/local/opt/lmod/6.5/g5.4.0/lmod/lmod/init/profile
@@ -484,3 +494,4 @@ fi
 export PATH
 export LD_LIBRARY_PATH
 export INCLUDE
+
