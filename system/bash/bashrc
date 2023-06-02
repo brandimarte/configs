@@ -443,7 +443,8 @@ case ${Iam} in
    LD_LIBRARY_PATH=/usr/local/intel/mkl/10.2.7.041/lib/64:${LD_LIBRARY_PATH}
    INCLUDE=/usr/local/intel/mkl/10.2.7.041/include:${INCLUDE}
    ;;
-"sheldon" | *"abacus"* )
+"sheldon" | *"abacus"* | "zegama"* )
+   export LANG=en_US.UTF8
    module purge
    module use --append ${HOME}/local/modules
    ;;

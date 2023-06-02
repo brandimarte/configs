@@ -206,6 +206,9 @@ case ${Iam} in
    # repositories
    #
    alias siestarepo='ssh pbrandimarte@nano.uab.es'
+   ;;
+"CPU00446U" )
+   alias psheldon='ssh -X -L 8753:localhost:8753 zegama002 -t ssh -L 8753:localhost:22 sheldon'
    ;; 
 *)
    ;;
