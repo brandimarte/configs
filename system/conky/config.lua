@@ -90,17 +90,17 @@ ${voffset -6}${offset 8}${color5}core 5: ${cpu cpu5}% / ${freq 5} MHz ${alignr}$
 ${color5}${voffset -3}${offset 8}${cpugraph cpu5 14,230 999999 CC0000 -t}
 ${voffset -6}${offset 8}${color5}core 6: ${cpu cpu6}% / ${freq 6} MHz ${alignr}${color1}${texeci 8 sensors | grep 'Core 17' | cut -c17-23 | sed '/^$/d'}C
 ${color5}${voffset -3}${offset 8}${cpugraph cpu6 14,230 999999 CC0000 -t}
-${voffset -6}${offset 8}${color5}core 7: ${cpu cpu1}% / ${freq 7} MHz ${alignr}${color1}${texeci 8 sensors | grep 'Core 18' | cut -c17-23 | sed '/^$/d'}C
+${voffset -6}${offset 8}${color5}core 7: ${cpu cpu7}% / ${freq 7} MHz ${alignr}${color1}${texeci 8 sensors | grep 'Core 18' | cut -c17-23 | sed '/^$/d'}C
 ${color5}${voffset -3}${offset 8}${cpugraph cpu7 14,230 999999 CC0000 -t}
-${voffset -6}${offset 8}${color5}core 8: ${cpu cpu2}% / ${freq 8} MHz ${alignr}${color1}${texeci 8 sensors | grep 'Core 19' | cut -c17-23 | sed '/^$/d'}C
+${voffset -6}${offset 8}${color5}core 8: ${cpu cpu8}% / ${freq 8} MHz ${alignr}${color1}${texeci 8 sensors | grep 'Core 19' | cut -c17-23 | sed '/^$/d'}C
 ${color5}${voffset -3}${offset 8}${cpugraph cpu8 14,230 999999 CC0000 -t}
-${voffset -6}${offset 8}${color5}core 9: ${cpu cpu3}% / ${freq 9} MHz ${alignr}${color1}${texeci 8 sensors | grep 'Core 20' | cut -c17-23 | sed '/^$/d'}C
+${voffset -6}${offset 8}${color5}core 9: ${cpu cpu9}% / ${freq 9} MHz ${alignr}${color1}${texeci 8 sensors | grep 'Core 20' | cut -c17-23 | sed '/^$/d'}C
 ${color5}${voffset -3}${offset 8}${cpugraph cpu9 14,230 999999 CC0000 -t}
-${voffset -6}${offset 8}${color5}core 10: ${cpu cpu4}% / ${freq 10} MHz ${alignr}${color1}${texeci 8 sensors | grep 'Core 21' | cut -c17-23 | sed '/^$/d'}C
+${voffset -6}${offset 8}${color5}core 10: ${cpu cpu10}% / ${freq 10} MHz ${alignr}${color1}${texeci 8 sensors | grep 'Core 21' | cut -c17-23 | sed '/^$/d'}C
 ${color5}${voffset -3}${offset 8}${cpugraph cpu10 14,230 999999 CC0000 -t}
-${voffset -6}${offset 8}${color5}core 11: ${cpu cpu5}% / ${freq 11} MHz ${alignr}${color1}${texeci 8 sensors | grep 'Core 22' | cut -c17-23 | sed '/^$/d'}C
+${voffset -6}${offset 8}${color5}core 11: ${cpu cpu11}% / ${freq 11} MHz ${alignr}${color1}${texeci 8 sensors | grep 'Core 22' | cut -c17-23 | sed '/^$/d'}C
 ${color5}${voffset -3}${offset 8}${cpugraph cpu11 14,230 999999 CC0000 -t}
-${voffset -6}${offset 8}${color5}core 12: ${cpu cpu6}% / ${freq 12} MHz ${alignr}${color1}${texeci 8 sensors | grep 'Core 23' | cut -c17-23 | sed '/^$/d'}C
+${voffset -6}${offset 8}${color5}core 12: ${cpu cpu12}% / ${freq 12} MHz ${alignr}${color1}${texeci 8 sensors | grep 'Core 23' | cut -c17-23 | sed '/^$/d'}C
 ${color5}${voffset -3}${offset 8}${cpugraph cpu12 14,230 999999 CC0000 -t}
 ${voffset -2}${offset 8}${color5}Total: $processes  Running: $running_processes
 ${voffset 2}${offset 8}Highest CPU:${alignr}PID    CPU%
