@@ -15,7 +15,7 @@ module load python
 conda config --set channel_priority flexible
 
 conda install -k -y python=${python_version}
-conda install autopep8 conda=22.9.0 cppcheck cpplint isort jupyter libjpeg-turbo=2.1.4 libpng matplotlib numpy opencv pillow pycodestyle pylint pytest pytorch shellcheck torchvision visdom
+conda install autopep8 conda=22.9.0 cppcheck cpplint isort jupyter libjpeg-turbo=2.1.4 libpng matplotlib numpy opencv pillow pycodestyle pylint pytest pytorch shellcheck torchvision tox visdom
 pip install compdb thop vcd
 conda clean -y -a
 
