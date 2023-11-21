@@ -1,4 +1,4 @@
-{
+{ 
     "workspaceExplorer.workspaceStorageDirectory": "/home/pedro/local/src/vs_workspaces",
     "files.exclude": {
         "**/.gitee": true,
@@ -36,22 +36,39 @@
     "shellcheck.executablePath": "/home/pedro/local/opt/python/miniforge3/3.10.6/bin/shellcheck",
     "python.defaultInterpreterPath": "/home/pedro/local/opt/python/miniforge3/3.10.6/bin/python",
     "python.terminal.activateEnvironment": false,
-    "python.linting.pylintPath": "/home/pedro/local/opt/python/miniforge3/3.10.6/bin/pylint",
-    "python.linting.pylintEnabled": true,
-    "python.linting.pylintArgs": ["--max-line-length=120"],
-    "python.linting.pycodestylePath": "/home/pedro/local/opt/python/miniforge3/3.10.6/bin/pycodestyle",
-    "python.linting.pycodestyleEnabled": true,
-    "python.linting.pycodestyleArgs": ["--max-line-length=120"],
-    "python.linting.pydocstyleEnabled": false,
-    "python.formatting.autopep8Path": "/home/pedro/local/opt/python/miniforge3/3.10.6/bin/autopep8",
-    "python.formatting.autopep8Args": ["--max-line-length", "120", "--experimental"],
+    "pylint.interpreter": ["/home/pedro/local/opt/python/miniforge3/3.10.6/bin/python"],
+    "pylint.path": ["/home/pedro/local/opt/python/miniforge3/3.10.6/bin/pylint"],
+    "pylint.args": ["--max-line-length=120"],
+    // Only option for pycodestyle found is via Ruff extension
+    // "python.linting.pycodestylePath": "/home/pedro/local/opt/python/miniforge3/3.10.6/bin/pycodestyle",
+    // "python.linting.pycodestyleEnabled": true,
+    // "python.linting.pycodestyleArgs": ["--max-line-length", "120"],
+    "autopep8.interpreter": ["/home/pedro/local/opt/python/miniforge3/3.10.6/bin/python"],
+    "autopep8.path": ["/home/pedro/local/opt/python/miniforge3/3.10.6/bin/autopep8"],
+    "autopep8.args": ["--max-line-length", "120", "--experimental"],
+    "autopep8.showNotifications": "always",
     "[python]": {
         "gitlens.codeLens.symbolScopes": [
             "!Module"
         ],
-        "editor.wordBasedSuggestions": false
+        "editor.wordBasedSuggestions": false,
+        "editor.defaultFormatter": "ms-python.autopep8",
+        "editor.formatOnSave": false,
+        "editor.formatOnType": false
     },
     "isort.path": [
         "/home/pedro/local/opt/python/miniforge3/3.10.6/bin/isort"
-    ]
+    ],
+    "cSpell.enableFiletypes": [
+        "!python"
+    ],
+    "[cpp]": {
+        "editor.defaultFormatter": "xaver.clang-format"
+    },
+    "editor.inlineSuggest.enabled": true,
+    "editor.wordWrapColumn": 120,
+    "editor.largeFileOptimizations": false,
+    "editor.foldingMaximumRegions": 10000,
+    "window.zoomLevel": -1,
+    "git.openRepositoryInParentFolders": "never"
 }
