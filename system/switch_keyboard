@@ -1,0 +1,8 @@
+#!/bin/bash
+
+case $(setxkbmap -query | grep variant | awk '{ print $2 }') in
+   intl) setxkbmap us ;;
+   *) setxkbmap us -variant intl ;;
+esac
+
+exit 0
